@@ -1,0 +1,40 @@
+server:
+  port: 8888
+
+
+
+# yml对空格严格要求
+# 普通的key-value
+name: chendong
+
+# 对象
+student:
+  name: chendong
+  age: 18
+
+# 行内写法
+student2: {name: chendong,age: 18}
+
+# 数组
+pets:
+  - cat
+  - dog
+  - pig
+
+pets2: [cat,dog,pig]
+
+
+# 对person赋值
+person:
+  name: chendong
+  age: 18
+  happy: true
+  birth: 1888/08/18
+  maps: {k1: v1,k2: v2}
+  lists:
+    - code
+    - music
+    - girl
+  dog:
+    name: wangcai
+    age: 5
