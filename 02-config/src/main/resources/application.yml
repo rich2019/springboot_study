@@ -1,21 +1,17 @@
 server:
   port: 8888
 
+debug: false
 
-
-# yml对空格严格要求
-# 普通的key-value
 name: chendong
 
-# 对象
 student:
   name: chendong
   age: 18
 
-# 行内写法
+
 student2: {name: chendong,age: 18}
 
-# 数组
 pets:
   - cat
   - dog
@@ -24,7 +20,6 @@ pets:
 pets2: [cat,dog,pig]
 
 
-# 对person赋值
 person:
   name: chendong
   age: 18

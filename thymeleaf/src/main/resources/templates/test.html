@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<!--添加头部,即可使用thymeleaf表达式-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<div th:text="${msg}"></div>
+<div th:utext="${msg}"></div>
+
+<h3 th:each="user:${users}" th:text="${user}"></h3>
+------------------------------
+<h4 th:each="user:${users}">[[${user}]]</h4>
+</body>
+</html>

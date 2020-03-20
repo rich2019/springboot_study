@@ -14,6 +14,7 @@ class ApplicationTests {
     @Autowired
     private Person person;
 
+
     @Test
     void contextLoads() {
         System.out.println(dog);//Dog{name='旺财', age=3}
