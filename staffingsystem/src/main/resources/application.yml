@@ -1,0 +1,12 @@
+server:
+  port: 8891
+
+
+
+spring:
+  thymeleaf:
+    cache: false #关闭thymeleaf缓存
+  messages:
+    basename: i18n.login  #配置文件的位置
+
+

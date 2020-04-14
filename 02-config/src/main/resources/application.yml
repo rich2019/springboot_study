@@ -1,10 +1,14 @@
+# 设置端口号
 server:
   port: 8888
 
+# 开启后控制台显示哪些服务启动了
 debug: false
 
+# 可以将属性加载pojo目录下的类中
 name: chendong
 
+# 属性加载到student类中
 student:
   name: chendong
   age: 18
