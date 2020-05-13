@@ -30,10 +30,15 @@ public class ShiroConfig {
 //        filterMap.put("/user/add","authc");
 //        filterMap.put("/user/update","authc");
 
+        filterMap.put("/user/add","perms[user:add]");
         filterMap.put("/user/*", "authc");
         bean.setFilterChainDefinitionMap(filterMap);
 
+        //设置登陆的请求
         bean.setLoginUrl("/toLogin");
+        //未授权页面
+        bean.setUnauthorizedUrl("/unauthorized");
+
 
 
         return bean;

@@ -1,10 +1,23 @@
 server:
   port: 8888
 
+
 spring:
   thymeleaf:
     cache: false
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:33060/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-
-# 配置mybatis
+# 配置mybatisplus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 设置日志为控制台输出
+  # 配置逻辑删除
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 删除的值为1
+      logic-not-delete-value: 0 # 不删除的值为0
 
