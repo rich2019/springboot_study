@@ -15,7 +15,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginHandlerInterceptor())
                 .addPathPatterns("/**")         //拦截所有的路径
-                .excludePathPatterns("/index.html","/","/user/login","/css/**","/js/**","/img/**");  //添加不拦截的路径
+                .excludePathPatterns("/index.html", "/", "/user/login", "/css/**", "/js/**", "/img/**");  //添加不拦截的路径
     }
 
     //自定义的国际化组件

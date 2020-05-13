@@ -9,7 +9,7 @@ public class IndexController {
 
     @RequestMapping("/hello")
     @ResponseBody
-    public String hello(){
+    public String hello() {
         return "hello";
     }
 }

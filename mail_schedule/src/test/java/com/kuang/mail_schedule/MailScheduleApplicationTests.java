@@ -20,7 +20,7 @@ class MailScheduleApplicationTests {
 
 //        mailMessage.setTo("3272485171@qq.com");
         mailMessage.setTo("1327571308@qq.com");
-        mailMessage.setFrom("1327571308@qq.com" );
+        mailMessage.setFrom("1327571308@qq.com");
 
         mailSender.send(mailMessage);
     }

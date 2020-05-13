@@ -1,0 +1,17 @@
+server:
+  port: 8888
+
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:33060/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+# 整合mybatis
+mybatis:
+  # 配置别名
+  type-aliases-package: com.kuang.springbootmybatis.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml

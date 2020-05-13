@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //没有权限默认跳转登陆界面,开启登陆界面
         //定制登录页
-            http
+        http
                 .formLogin()
                 .loginPage("/toLogin")
                 .loginProcessingUrl("/login")

@@ -26,12 +26,12 @@ public class MyMvcConfig implements WebMvcConfigurer {
     //实现了视图解析器的类,我们就可以把它看成视图解析器
     //在dispatcherservlet类中打断点,即可看到myViewResolver
     @Bean
-    public ViewResolver myViewResolver(){
+    public ViewResolver myViewResolver() {
         return new MyViewResolver();
     }
 
     //定义了一个自己的视图解析器
-    private class MyViewResolver implements ViewResolver{
+    private class MyViewResolver implements ViewResolver {
         @Override
         public View resolveViewName(String viewName, Locale locale) throws Exception {
             return null;

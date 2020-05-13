@@ -24,12 +24,12 @@ public class UserRealm extends AuthorizingRealm {
         String username = "root";
         String password = "123";
 
-        UsernamePasswordToken userToken = (UsernamePasswordToken)token;
-        if (!userToken.getUsername().equals(username)){
+        UsernamePasswordToken userToken = (UsernamePasswordToken) token;
+        if (!userToken.getUsername().equals(username)) {
             return null;    //抛出异常 UnknownAccountException
         }
 
         //密码认证,shiro做
-        return new SimpleAuthenticationInfo("",password,"");
+        return new SimpleAuthenticationInfo("", password, "");
     }
 }

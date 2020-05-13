@@ -9,28 +9,28 @@ public class RouterController {
 
     //origin
 
-    @RequestMapping({"/","/index"})
-    public String index(){
+    @RequestMapping({"/", "/index"})
+    public String index() {
         return "index";
     }
 
     @RequestMapping("/toLogin")
-    public String toLogin(){
+    public String toLogin() {
         return "views/login";
     }
 
     @RequestMapping("/level1/{id}")
-    public String level1(@PathVariable("id") int id){
-        return "views/level1/"+id;
+    public String level1(@PathVariable("id") int id) {
+        return "views/level1/" + id;
     }
 
     @RequestMapping("/level2/{id}")
-    public String level2(@PathVariable("id") int id){
-        return "views/level2/"+id;
+    public String level2(@PathVariable("id") int id) {
+        return "views/level2/" + id;
     }
 
     @RequestMapping("/level3/{id}")
-    public String level3(@PathVariable("id") int id){
-        return "views/level3/"+id;
+    public String level3(@PathVariable("id") int id) {
+        return "views/level3/" + id;
     }
 }

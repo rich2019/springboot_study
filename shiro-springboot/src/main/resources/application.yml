@@ -4,3 +4,7 @@ server:
 spring:
   thymeleaf:
     cache: false
+
+
+# 配置mybatis
+

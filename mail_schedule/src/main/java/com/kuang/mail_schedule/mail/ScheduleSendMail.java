@@ -21,9 +21,9 @@ public class ScheduleSendMail {
     @Scheduled(cron = "58 0/20 * * * ?")
     public void scheduledSend() {
         System.out.println("每5分钟发送一次邮件");
-        System.out.println("第"+ (i++) +"次,发送邮件 "+new Date());
+        System.out.println("第" + (i++) + "次,发送邮件 " + new Date());
         sendMail();
-        System.out.println("第"+ i +"次,发送邮件完成 " +  new Date());
+        System.out.println("第" + i + "次,发送邮件完成 " + new Date());
         System.out.println("-------------------------");
     }
 
