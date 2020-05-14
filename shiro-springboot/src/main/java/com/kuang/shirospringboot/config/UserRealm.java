@@ -3,8 +3,10 @@ package com.kuang.shirospringboot.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kuang.shirospringboot.mapper.ShiroMapper;
 import com.kuang.shirospringboot.pojo.Shiro;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,14 @@ public class UserRealm extends AuthorizingRealm {
         System.out.println("执行了授权");
 
 
-        return null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        //拿到当前的登陆对象
+        Shiro user = (Shiro)SecurityUtils.getSubject().getPrincipal();
+        //设置当前用户的权限
+        info.addStringPermission(user.getPerms());
+
+
+        return info;
     }
 
     //认证
@@ -41,14 +50,13 @@ public class UserRealm extends AuthorizingRealm {
         UsernamePasswordToken userToken = (UsernamePasswordToken) token;
         QueryWrapper<Shiro> wrapper = new QueryWrapper<>();
         wrapper.eq("username",userToken.getUsername());
-        Shiro shiro = shiroMapper.selectOne(wrapper);
-        System.out.println(shiro);
-        if (null == shiro){
+        Shiro user = shiroMapper.selectOne(wrapper);
+        System.out.println(user);
+        if (null == user){
             return null;
         }
 
-
         //密码认证,shiro做
-        return new SimpleAuthenticationInfo("", shiro.getPassword(), "");
+        return new SimpleAuthenticationInfo(user, user.getPassword(), "");
     }
 }
