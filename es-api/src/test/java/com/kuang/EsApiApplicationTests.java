@@ -2,7 +2,6 @@ package com.kuang;
 
 import com.alibaba.fastjson.JSON;
 import com.kuang.pojo.User;
-import org.apache.lucene.util.QueryBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -39,7 +38,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest
 class EsApiApplicationTests {
@@ -48,20 +46,24 @@ class EsApiApplicationTests {
     @Qualifier("restHighLevelClient")
     private RestHighLevelClient client;
 
+    // es的索引
+    private final String INDEX = "test_2020";
+
     // 测试创建索引
     @Test
     void testCreateIndex() throws IOException {
         // 1.创建索引请求
-        CreateIndexRequest request = new CreateIndexRequest("cdd");
+        CreateIndexRequest request = new CreateIndexRequest(INDEX);
         // 2.执行创建请求
         CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
         System.out.println(response);
+        System.out.println(response.index());
     }
 
     // 测试获取索引
     @Test
     void testExistIndex() throws IOException {
-        GetIndexRequest request = new GetIndexRequest("cdd");
+        GetIndexRequest request = new GetIndexRequest(INDEX);
         boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
         System.out.println(exists);
     }
@@ -69,7 +71,7 @@ class EsApiApplicationTests {
     // 测试删除索引
     @Test
     void testDeleteIndex() throws IOException {
-        DeleteIndexRequest request = new DeleteIndexRequest("cdd");
+        DeleteIndexRequest request = new DeleteIndexRequest(INDEX);
         AcknowledgedResponse delete = client.indices().delete(request, RequestOptions.DEFAULT);
         System.out.println(delete.isAcknowledged());
     }
@@ -79,7 +81,7 @@ class EsApiApplicationTests {
     void testAddDocument() throws IOException {
         User user = new User("李四", 22);
         // 创建请求
-        IndexRequest request = new IndexRequest("cdd");
+        IndexRequest request = new IndexRequest(INDEX);
 
         // 规则 put cdd_index/_doc/1
         request.id("2");
@@ -99,7 +101,7 @@ class EsApiApplicationTests {
     // 获取文档,判断是否存在 get /index/doc/1
     @Test
     void testIsExists() throws IOException {
-        GetRequest getRequest = new GetRequest("cdd", "1");
+        GetRequest getRequest = new GetRequest(INDEX, "1");
         // 不获取返回的_source的上下文
         getRequest.fetchSourceContext(new FetchSourceContext(false));
         boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);
@@ -110,7 +112,7 @@ class EsApiApplicationTests {
     // 获取文档的信息
     @Test
     void testGetDocument() throws IOException {
-        GetRequest getRequest = new GetRequest("cdd", "2");
+        GetRequest getRequest = new GetRequest(INDEX, "2");
         GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
         System.out.println(getResponse.getSourceAsString());  // 打印文档的内容
         System.out.println(getResponse);
@@ -120,7 +122,7 @@ class EsApiApplicationTests {
     // 更新文档的信息
     @Test
     void testUpdateDocument() throws IOException {
-        UpdateRequest updateRequest = new UpdateRequest("cdd", "1");
+        UpdateRequest updateRequest = new UpdateRequest(INDEX, "1");
         updateRequest.timeout("1s");
         User user = new User("张三", 18);
         updateRequest.doc(JSON.toJSONString(user), XContentType.JSON);
@@ -133,7 +135,7 @@ class EsApiApplicationTests {
     // 删除文档的信息
     @Test
     void testDeleteDocument() throws IOException {
-        DeleteRequest deleteRequest = new DeleteRequest("cdd", "2");
+        DeleteRequest deleteRequest = new DeleteRequest(INDEX, "2");
         deleteRequest.timeout("1s");
 
         DeleteResponse delete = client.delete(deleteRequest, RequestOptions.DEFAULT);
@@ -150,14 +152,14 @@ class EsApiApplicationTests {
         list.add(new User("a", 120));
         list.add(new User("b", 12));
         list.add(new User("c", 13));
-        list.add(new User("d", 12));
-        list.add(new User("e", 14));
-        list.add(new User("f", 16));
+        list.add(new User("d", 54));
+        list.add(new User("e", 56));
+        list.add(new User("f", 76));
         list.add(new User("g", 123));
 
         list.forEach(info -> {
             bulkRequest.add(
-                    new IndexRequest("cdd").source(JSON.toJSONString(info), XContentType.JSON)
+                    new IndexRequest(INDEX).source(JSON.toJSONString(info), XContentType.JSON)
             );
         });
 
@@ -174,7 +176,7 @@ class EsApiApplicationTests {
     // MatchAllQueryBuilder 查询全部
     @Test
     void testSearch() throws IOException {
-        SearchRequest searchRequest = new SearchRequest("cdd");
+        SearchRequest searchRequest = new SearchRequest(INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
         TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("name", "a");// 精确查询
