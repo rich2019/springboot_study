@@ -13,6 +13,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -27,8 +28,13 @@ import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+import org.elasticsearch.search.aggregations.metrics.Sum;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +43,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
@@ -84,7 +91,7 @@ class EsApiApplicationTests {
         IndexRequest request = new IndexRequest(INDEX);
 
         // 规则 put cdd_index/_doc/1
-        request.id("2");
+        request.id("1");
         request.timeout(TimeValue.timeValueSeconds(3));
 
         // 将我们的数据放入请求
@@ -103,7 +110,7 @@ class EsApiApplicationTests {
     void testIsExists() throws IOException {
         GetRequest getRequest = new GetRequest(INDEX, "1");
         // 不获取返回的_source的上下文
-        getRequest.fetchSourceContext(new FetchSourceContext(false));
+        getRequest.fetchSourceContext(new FetchSourceContext(true));
         boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);
         System.out.println(exists);
     }
@@ -151,11 +158,11 @@ class EsApiApplicationTests {
         List<User> list = new LinkedList<>();
         list.add(new User("a", 120));
         list.add(new User("b", 12));
-        list.add(new User("c", 13));
-        list.add(new User("d", 54));
-        list.add(new User("e", 56));
-        list.add(new User("f", 76));
-        list.add(new User("g", 123));
+//        list.add(new User("c", 13));
+//        list.add(new User("d", 54));
+//        list.add(new User("e", 56));
+//        list.add(new User("f", 76));
+//        list.add(new User("g", 123));
 
         list.forEach(info -> {
             bulkRequest.add(
@@ -171,7 +178,7 @@ class EsApiApplicationTests {
 
     // 查询
     // SearchRequest 搜索请求
-    // SearchSourceBuilder 条件构造
+    // SearchSourceBuilder 条件构造 
     // TermQueryBuilder 精准查询
     // MatchAllQueryBuilder 查询全部
     @Test
@@ -191,7 +198,8 @@ class EsApiApplicationTests {
 
         System.out.println(response.getHits());
         for (SearchHit hit : response.getHits().getHits()) {
-            System.out.println(hit.getSourceAsMap());
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            System.out.println(sourceAsMap);
         }
 
 

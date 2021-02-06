@@ -10,6 +10,7 @@ public class IndexController {
     @RequestMapping("/hello")
     @ResponseBody
     public String hello() {
-        return "hello";
+        System.out.println("hello2");
+        return "hello2";
     }
 }
